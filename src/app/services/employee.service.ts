@@ -7,7 +7,6 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class EmployeeService {
-  // Cambia esta URL a la URL de tu backend desplegado en Vercel
   private apiUrl = 'https://empleadosback.vercel.app/api/empleados/';
 
   constructor(private http: HttpClient) {}
@@ -20,7 +19,7 @@ export class EmployeeService {
       value: Number(employee.valor)
     };
 
-    // Usa la URL base directamente
+   
     return this.http.post(this.apiUrl, transformedEmployee).pipe(
       catchError(this.handleError)
     );
@@ -29,7 +28,7 @@ export class EmployeeService {
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Ocurrió un error desconocido';
 
-    console.log('Error completo:', error); // Agrega este registro para más detalles
+    console.log('Error completo:', error);
 
     if (!navigator.onLine) {
       errorMessage = 'No hay conexión a internet';
