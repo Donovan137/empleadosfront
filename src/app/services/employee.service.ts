@@ -19,7 +19,7 @@ export class EmployeeService {
       value: Number(employee.valor)
     };
 
-    return this.http.post(this.apiUrl, transformedEmployee).pipe(
+    return this.http.post(`${this.apiUrl}`, transformedEmployee).pipe(
       catchError(this.handleError)
     );
   }
@@ -30,13 +30,21 @@ export class EmployeeService {
     if (!navigator.onLine) {
       errorMessage = 'No hay conexión a internet';
     } else if (error.status === 0) {
-      errorMessage = 'No se puede conectar al servidor. Por favor, verifica que el servidor esté corriendo en http://localhost:3000';
+      errorMessage = 'No se puede conectar al servidor. Por favor, verifica que el servidor esté corriendo';
     } else if (error.error instanceof ErrorEvent) {
       errorMessage = `Error del cliente: ${error.error.message}`;
     } else {
       errorMessage = `Error del servidor: ${error.status}\nMensaje: ${error.error?.message || error.message}`;
     }
 
+    console.error(errorMessage);
     return throwError(() => errorMessage);
+  }
+
+  // Método opcional para obtener todos los empleados
+  getEmployees(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}`).pipe(
+      catchError(this.handleError)
+    );
   }
 }
