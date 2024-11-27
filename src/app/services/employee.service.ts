@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
 })
 export class EmployeeService {
   // Cambia esta URL a la URL de tu backend desplegado en Vercel
-  private apiUrl = 'https://empleadosback.vercel.app/api/employees';
+  private apiUrl = 'https://empleadosback.vercel.app/api/empleados';
 
   constructor(private http: HttpClient) {}
 
