@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class EmployeeService {
-  private apiUrl = 'https://empleadosback.vercel.app/api/empleados/';
+  private apiUrl = 'https://empleadosback.vercel.app/';
 
   constructor(private http: HttpClient) {}
 
