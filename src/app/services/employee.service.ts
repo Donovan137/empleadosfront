@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class EmployeeService {
+  // Cambia esta URL a la URL de tu backend desplegado en Vercel
   private apiUrl = 'https://empleadosback.vercel.app/api/employees';
 
   constructor(private http: HttpClient) {}
@@ -19,7 +20,8 @@ export class EmployeeService {
       value: Number(employee.valor)
     };
 
-    return this.http.post(`${this.apiUrl}`, transformedEmployee).pipe(
+    // Usa la URL base directamente
+    return this.http.post(this.apiUrl, transformedEmployee).pipe(
       catchError(this.handleError)
     );
   }
@@ -27,24 +29,22 @@ export class EmployeeService {
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Ocurrió un error desconocido';
 
+    console.log('Error completo:', error); // Agrega este registro para más detalles
+
     if (!navigator.onLine) {
       errorMessage = 'No hay conexión a internet';
     } else if (error.status === 0) {
-      errorMessage = 'No se puede conectar al servidor. Por favor, verifica que el servidor esté corriendo';
+      errorMessage = `No se puede conectar al servidor. 
+        URL intentada: ${error.url}
+        Estado: ${error.statusText}`;
     } else if (error.error instanceof ErrorEvent) {
       errorMessage = `Error del cliente: ${error.error.message}`;
     } else {
-      errorMessage = `Error del servidor: ${error.status}\nMensaje: ${error.error?.message || error.message}`;
+      errorMessage = `Error del servidor: ${error.status}
+        Mensaje: ${error.error?.message || error.message}`;
     }
 
     console.error(errorMessage);
     return throwError(() => errorMessage);
-  }
-
-  // Método opcional para obtener todos los empleados
-  getEmployees(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}`).pipe(
-      catchError(this.handleError)
-    );
   }
 }
